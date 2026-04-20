@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faCaretDown, faTimes } from '@fortawesome/free-solid-svg-icons'
 import EnquiryModal from '@/components/EnquiryModal'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
 
@@ -18,7 +18,6 @@ export default function Navbar() {
   const [selectedSlug, setSelectedSlug] = useState('')
 
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   const toggleNavbar = () => setIsNavbarOpen(!isNavbarOpen)
 
@@ -38,18 +37,35 @@ export default function Navbar() {
     }
   }
 
+  // ✅ UPDATED (works on all navigation + devices)
   useEffect(() => {
-    const modal = searchParams.get('modal')
-    if (modal === 'enquiry') {
-      setOpenModal(true)
-      setSelectedSlug('enquiry')
+    const checkModal = () => {
+      const params = new URLSearchParams(window.location.search)
+      const modal = params.get('modal')
+
+      if (modal === 'enquiry') {
+        setOpenModal(true)
+        setSelectedSlug('enquiry')
+      } else {
+        setOpenModal(false)
+      }
     }
-  }, [searchParams])
+
+    // run on load
+    checkModal()
+
+    // listen browser back/forward
+    window.addEventListener('popstate', checkModal)
+
+    return () => {
+      window.removeEventListener('popstate', checkModal)
+    }
+  }, [])
 
   return (
     <>
       {/* FIXED TOP NAVBAR */}
-      <div className=" w-full z-50 bg-white lg:bg-transparent shadow-md lg:shadow-none">
+      <div className="w-full z-50 bg-white lg:bg-transparent shadow-md lg:shadow-none">
         <nav className="px-3 py-2 lg:py-3">
 
           <div className="flex items-center justify-between">
