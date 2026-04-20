@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Navigation Button Styling */
+.custom-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-nav:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Left Button */
+.custom-prev {
+  left: 40px;
+}
+
+/* Right Button */
+.custom-next {
+  right: 40px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .custom-prev {
+    left: 10px;
+  }
+
+  .custom-next {
+    right: 10px;
+  }
+}
+
+.owl-nav {
+  display: none;
+}
+
+#testimonial > .owl-carousel .owl-item img {
+  width: 4rem;
+}
