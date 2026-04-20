@@ -1,6 +1,6 @@
 // import Navbar from '@/components/Navbar'
 // import Footer from '@/components/Footer'
-
+"use client"; 
 export const metadata = {
   title: 'About Us - Ghumakkar Masti Holidays',
   description: 'Learn about Ghumakkar Masti - one of the leading Holiday Deal provider companies in Delhi India, offering customized holiday packages across India with over 1000 successful trips.',
