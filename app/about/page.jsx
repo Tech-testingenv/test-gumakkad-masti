@@ -2,7 +2,7 @@
 // import Footer from '@/components/Footer'
 "use client"; 
  
-
+ 
 export default function About() {
   return (
     <div className="bg-white min-h-screen">
