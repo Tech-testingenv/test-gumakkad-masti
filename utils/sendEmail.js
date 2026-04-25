@@ -8,7 +8,9 @@ export const sendEmail = async (params) => {
       process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
       params,
       process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      
     )
+
     return res
   } catch (error) {
     throw error
