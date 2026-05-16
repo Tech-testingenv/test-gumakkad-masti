@@ -7,6 +7,9 @@ export const metadata = {
   keywords: 'Ghumakkar Masti, Holiday packages, Tour packages, Kashmir tour, Leh Ladakh, Port Blair, North East tour, Shimla Manali, Wildlife packages, South India packages, Religious tours, Chardham yatra, Vaishno Devi yatra, Cultural tours, Kerala tours, Delhi travel agency',
 }
 
+import { Toaster } from 'react-hot-toast'
+import Breadcrumb from '@/components/Breadcrumb'
+
 export default function RootLayout({
   children,
 }) {
@@ -18,7 +21,18 @@ export default function RootLayout({
         <meta name="robots" content="index, follow" />
       </head>
       <body className="bg-white">
+        <Toaster 
+          position="top-right" 
+          toastOptions={{
+            style: {
+              borderRadius: '10px',
+              background: '#581c87', // purple-900
+              color: '#fff',
+            },
+          }}
+        />
         <Hero />
+        <Breadcrumb />
         {children}
         <Footer />
       </body>

@@ -67,7 +67,7 @@ href={`/${category}/${slug}`}            className="bg-orange-500 text-white px-
           </Link>
 
           <Link
-            href="https://wa.me/919999999999"
+            href="https://wa.me/918744878555"
             target="_blank"
             className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm md:text-base text-center"
           >

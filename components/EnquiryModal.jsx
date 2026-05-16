@@ -135,12 +135,14 @@
 
 
 'use client'
-import { sendEmail } from '@/utils/sendEmail'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { FaTimes } from 'react-icons/fa'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { FaTimes } from 'react-icons/fa'
 
 export default function EnquiryModal({ isOpen, onClose }) {
+  const [loading, setLoading] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -160,28 +162,39 @@ export default function EnquiryModal({ isOpen, onClose }) {
       agree: Yup.boolean().oneOf([true], 'Required')
     }),
 
- onSubmit: async (values, { resetForm }) => {
-  try {
-    const params = {
-      name: values.name,
-      email: values.email,
-      phone: values.phone,
-      date: values.date,
-      form_type: 'Enquiry Modal',
-      ...(values.message && { message: values.message })
+    onSubmit: async (values, { resetForm }) => {
+      setLoading(true)
+      try {
+        const response = await fetch('/api/send-enquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+            date: values.date,
+            form_type: 'Enquiry Modal',
+            message: values.message,
+          }),
+        })
+
+        const resData = await response.json()
+
+        if (resData.success) {
+          toast.success('Enquiry sent successfully ✅')
+          resetForm()
+          onClose()
+        } else {
+          toast.error('Failed to send enquiry ❌')
+        }
+
+      } catch (err) {
+        console.error(err)
+        toast.error('Failed ❌')
+      } finally {
+        setLoading(false)
+      }
     }
-
-    await sendEmail(params)
-
-    alert('Enquiry sent ✅')
-    resetForm()
-    onClose()
-
-  } catch (err) {
-    console.error(err)
-    alert('Failed ❌')
-  }
-}
   })
 
   if (!isOpen) return null
@@ -190,24 +203,22 @@ export default function EnquiryModal({ isOpen, onClose }) {
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 px-3">
 
       {/* Modal Box */}
-      <div className="bg-gray-100 w-full max-w-sm sm:max-w-md rounded-xl p-4 sm:p-6 relative">
+      <div className="bg-white w-full max-w-sm sm:max-w-md rounded-xl shadow-2xl relative overflow-hidden border-2 border-purple-900">
 
         {/* Close Button */}
         <button 
           onClick={onClose} 
-          className="absolute top-3 right-3 text-gray-600 text-lg"
+          className="absolute top-2 right-2 text-white text-lg z-10 hover:scale-110 transition"
         >
           <FaTimes />
         </button>
 
         {/* Heading */}
-        <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-700">
+        <h2 className="bg-purple-900 text-white text-center py-2 rounded-t-xl mb-4 font-bold uppercase">
           Get Quick Enquiry
         </h2>
 
-        <div className="w-16 h-1 bg-orange-500 mx-auto mt-2 mb-4"></div>
-
-        <form onSubmit={formik.handleSubmit} className="space-y-3">
+        <form onSubmit={formik.handleSubmit} className="space-y-3 p-4 sm:p-6 pt-0">
 
           {/* Name */}
           <div>
@@ -283,8 +294,11 @@ export default function EnquiryModal({ isOpen, onClose }) {
           <p className="text-red-500 text-xs h-4">{formik.errors.agree}</p>
 
           {/* Button */}
-          <button className="w-full bg-orange-500 text-white py-2.5 text-sm rounded-md hover:bg-orange-600 transition">
-            Send Message
+          <button 
+            disabled={loading}
+            className={`w-full bg-purple-900 text-white py-2.5 text-sm rounded-md hover:bg-purple-800 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {loading ? 'Sending...' : 'Send Message'}
           </button>
 
         </form>

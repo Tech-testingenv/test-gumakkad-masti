@@ -1,13 +1,15 @@
 
 
 'use client'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { sendEmail } from '@/utils/sendEmail'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 // import { useRef } from 'react'
 
 export default function ContactForm() {
-
+  const [loading, setLoading] = useState(false)
   // const recaptchaRef = useRef(null)
 
   const formik = useFormik({
@@ -35,23 +37,34 @@ export default function ContactForm() {
 
 
     onSubmit: async (values, { resetForm }) => {
+      setLoading(true)
       try {
-        const params = {
-          name: values.name,
-          email: values.email,
-          phone: values.phone,
-          form_type: 'Contact Form',
-          ...(values.message && { message: values.message })
+        const response = await fetch('/api/send-enquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+            form_type: 'Contact Form',
+            message: values.message,
+          }),
+        })
+
+        const resData = await response.json()
+
+        if (resData.success) {
+          toast.success('Message sent successfully! ✅')
+          resetForm()
+        } else {
+          toast.error('Failed to send message ❌')
         }
-
-        await sendEmail(params)
-
-        alert('Message sent successfully!')
-        resetForm()
 
       } catch (err) {
         console.error(err)
-        alert('Failed to send ')
+        toast.error('Failed to send ❌')
+      } finally {
+        setLoading(false)
       }
     }
   }
@@ -60,11 +73,11 @@ export default function ContactForm() {
   return (
     <div className="w-full bg-gray-100 border-2 border-black rounded-2xl p-6 flex flex-col">
 
-      <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-900">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center text-purple-900 uppercase">
         GET IN TOUCH
       </h2>
 
-      <div className="w-20 h-1 bg-orange-500 mx-auto mt-3 mb-6"></div>
+      <div className="w-20 h-1 bg-purple-900 mx-auto mt-3 mb-6"></div>
 
       <form onSubmit={formik.handleSubmit} className="flex flex-col flex-1 justify-between">
 
@@ -120,7 +133,7 @@ export default function ContactForm() {
               checked={formik.values.agree}
             />
             <p className="text-sm">
-              I agree to get SMS/Email/Call from Worship Holidays Representative.
+              I agree to get SMS/Email/Call from Ghumakkar Masti Representative.
             </p>
           </div>
 
@@ -134,8 +147,11 @@ export default function ContactForm() {
 
         </div>
 
-        <button className="w-full bg-orange-500 text-white py-3 rounded mt-4">
-          Send Message
+        <button 
+          disabled={loading}
+          className={`w-full bg-purple-900 text-white py-3 rounded mt-4 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          {loading ? 'Sending...' : 'Send Message'}
         </button>
 
       </form>

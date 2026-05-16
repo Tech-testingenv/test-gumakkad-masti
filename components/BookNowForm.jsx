@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { sendEmail } from '@/utils/sendEmail'
 
 export default function BookNowForm({ packageName = "" }) {
@@ -16,7 +17,29 @@ export default function BookNowForm({ packageName = "" }) {
     message: '',
   })
 
+  // Traveler Details State
+  const [counts, setCounts] = useState({
+    adults: 1,
+    children: 0,
+    pets: 'No'
+  })
+  const [showDropdown, setShowDropdown] = useState(false)
+
+  const updateCounts = (field, delta) => {
+    setCounts(prev => ({
+      ...prev,
+      [field]: Math.max(0, prev[field] + delta)
+    }))
+  }
+
+  const handleApply = () => {
+    const travelerString = `Travellers: ${counts.adults}, Children: ${counts.children}, Pets: ${counts.pets}`
+    setForm(prev => ({ ...prev, travelers: travelerString }))
+    setShowDropdown(false)
+  }
+
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
 
   // HANDLE CHANGE
   const handleChange = (e) => {
@@ -61,6 +84,7 @@ export default function BookNowForm({ packageName = "" }) {
     }
 
     setErrors({})
+    setLoading(true)
 
     try {
       const finalData = {
@@ -74,33 +98,39 @@ export default function BookNowForm({ packageName = "" }) {
         message: form.message,
       }
 
-      const params = {
-        ...finalData,
-        form_type: 'Booking Form',
-        ...(form.message && { message: form.message })
-      }
-
-      console.log("BOOKING DATA:", params)
-
-      await sendEmail(params)
-
-      alert('Booking sent ✅')
-
-      // RESET FORM
-      setForm({
-        name: '',
-        email: '',
-        phone: '',
-        destination: packageName || '',
-        date: '',
-        travelers: '',
-        pickup: '',
-        message: '',
+      const response = await fetch('/api/send-enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...finalData,
+          form_type: 'Booking Form',
+        }),
       })
+
+      const resData = await response.json()
+
+      if (resData.success) {
+        toast.success('Booking sent successfully ✅')
+        // RESET FORM
+        setForm({
+          name: '',
+          email: '',
+          phone: '',
+          destination: packageName || '',
+          date: '',
+          travelers: '',
+          pickup: '',
+          message: '',
+        })
+      } else {
+        toast.error('Failed to send booking ❌')
+      }
 
     } catch (err) {
       console.error(err)
-      alert('Failed ❌')
+      toast.error('Failed ❌')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -108,8 +138,8 @@ export default function BookNowForm({ packageName = "" }) {
     <div className="w-full max-w-md mx-auto">
       <div className="rounded-xl shadow-lg p-4 sm:p-6 bg-white w-full">
 
-        <h2 className="bg-blue-900 text-white text-center py-2 rounded mb-4 text-sm sm:text-base font-semibold">
-          Let’s Plan Your Trip
+        <h2 className="bg-purple-900 text-white text-center py-2 rounded mb-4 text-sm sm:text-base font-bold uppercase min-h-[40px] flex items-center justify-center px-2">
+          {form.destination || "Let’s Plan Your Trip"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -153,17 +183,6 @@ export default function BookNowForm({ packageName = "" }) {
             {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
           </div>
 
-          {/* Destination */}
-          <div>
-            <input
-              type="text"
-              name="destination"
-              value={form.destination}
-              readOnly
-              className="w-full border p-2 rounded bg-gray-100 text-sm sm:text-base"
-            />
-          </div>
-
           {/* Date */}
           <div>
             <input
@@ -177,15 +196,55 @@ export default function BookNowForm({ packageName = "" }) {
           </div>
 
           {/* Travelers */}
-          <div>
-            <input
-              type="number"
-              name="travelers"
-              value={form.travelers}
-              onChange={handleChange}
-              placeholder="Number of Travelers"
-              className="w-full border p-2 rounded text-sm sm:text-base"
-            />
+          <div className="relative">
+            <div 
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="w-full border p-2 rounded cursor-pointer text-gray-500 bg-white text-sm sm:text-base"
+            >
+              {form.travelers || "Number of Travelers"}
+            </div>
+
+            {showDropdown && (
+              <div className="absolute top-full left-0 w-full bg-white border shadow-xl rounded-lg p-4 z-50 mt-1 space-y-4">
+                <div className="flex justify-between items-center text-sm sm:text-base">
+                  <span className="font-medium">Travellers</span>
+                  <div className="flex items-center gap-3">
+                    <button type="button" onClick={() => updateCounts('adults', -1)} className="w-8 h-8 rounded-full border border-purple-900 text-purple-900 flex items-center justify-center">-</button>
+                    <span>{counts.adults}</span>
+                    <button type="button" onClick={() => updateCounts('adults', 1)} className="w-8 h-8 rounded-full border border-purple-900 text-purple-900 flex items-center justify-center">+</button>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center text-sm sm:text-base">
+                  <span className="font-medium">Children</span>
+                  <div className="flex items-center gap-3">
+                    <button type="button" onClick={() => updateCounts('children', -1)} className="w-8 h-8 rounded-full border border-purple-900 text-purple-900 flex items-center justify-center">-</button>
+                    <span>{counts.children}</span>
+                    <button type="button" onClick={() => updateCounts('children', 1)} className="w-8 h-8 rounded-full border border-purple-900 text-purple-900 flex items-center justify-center">+</button>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center text-sm sm:text-base">
+                  <span className="font-medium">Pets</span>
+                  <div className="flex gap-4">
+                    <label className="flex items-center gap-1 cursor-pointer">
+                      <input type="radio" name="pets" checked={counts.pets === 'Yes'} onChange={() => setCounts(p => ({...p, pets: 'Yes'}))} className="accent-purple-900" /> Yes
+                    </label>
+                    <label className="flex items-center gap-1 cursor-pointer">
+                      <input type="radio" name="pets" checked={counts.pets === 'No'} onChange={() => setCounts(p => ({...p, pets: 'No'}))} className="accent-purple-900" /> No
+                    </label>
+                  </div>
+                </div>
+
+                <button 
+                  type="button"
+                  onClick={handleApply}
+                  className="w-full bg-purple-900 text-white py-2 rounded-lg font-bold hover:bg-purple-800 transition"
+                >
+                  Apply
+                </button>
+              </div>
+            )}
             {errors.travelers && <p className="text-red-500 text-xs">{errors.travelers}</p>}
           </div>
 
@@ -216,9 +275,10 @@ export default function BookNowForm({ packageName = "" }) {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-blue-900 text-white py-2 rounded hover:bg-blue-700 transition text-sm sm:text-base"
+            disabled={loading}
+            className={`w-full bg-purple-900 text-white py-2 rounded hover:bg-purple-800 transition text-sm sm:text-base ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            Book Now
+            {loading ? 'Processing...' : 'Book Now'}
           </button>
 
         </form>
