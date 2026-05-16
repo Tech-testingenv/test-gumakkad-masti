@@ -3,19 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDoubleRight, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 export default function Footer() {
+  console.log("FOOTER FILE RUNNING");
   return (
     <footer className="bg-[#32064a] text-white py-10">
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Column 1: About */}
         <div>
-        <div className="flex items-center gap-3 mb-3">
-    <img 
-      src="/assets/image/logo-new.png" 
-      alt="Ghumakkar Masti Logo" 
-      className="w-20 h-20 object-cover"
-    />
-          <h3 className="text-lg font-bold ">Ghumakkar Masti</h3>
-         </div>
+          <div className="flex items-center gap-3 mb-3">
+            <img
+              src="/assets/image/logo-new.png"
+              alt="Ghumakkar Masti Logo"
+              className="w-20 h-20 object-cover"
+            />
+            <h3 className="text-lg font-bold ">Ghumakkar Masti</h3>
+          </div>
           <p className="text-gray-300 text-sm">
             Ghumakkar Masti is a trusted travel company based in Delhi, offering customized holiday packages across India.
             From Kashmir and Ladakh to Kerala and North-East tours, we specialize in religious, cultural, and adventure
@@ -71,11 +72,11 @@ export default function Footer() {
               <FontAwesomeIcon icon={faAngleDoubleRight} className="text-white mr-2" />
               <Link href="/andaman-packages" className="hover:text-blue-400">Andaman Tour</Link>
             </li>
-             <li>
+            <li>
               <FontAwesomeIcon icon={faAngleDoubleRight} className="text-white mr-2" />
               <Link href="/rajasthan-tour" className="hover:text-blue-400">Rajasthan Tour</Link>
             </li>
-             <li>
+            <li>
               <FontAwesomeIcon icon={faAngleDoubleRight} className="text-white mr-2" />
               <Link href="/goa-tour" className="hover:text-blue-400">Goa Tour</Link>
             </li>
@@ -93,7 +94,7 @@ export default function Footer() {
             <span className="mr-2">
               <FontAwesomeIcon icon={faPhone} />
             </span>
-            <Link href="tel:+919821325561" className="hover:text-blue-400">+91 9821325561</Link>,
+            {/* <Link href="tel:+8744878555" className="hover:text-blue-400">+91 9821325561</Link>, */}
             <Link href="tel:+918744878555" className="hover:text-blue-400 ml-1">+91-8744878555</Link>
           </p>
           <p className="text-gray-300 text-sm flex items-center mt-2">

@@ -1,4 +1,128 @@
+// 'use client'
+// import ContactForm from '@/components/Contactform'
+// import {
+//   FaMapMarkerAlt,
+//   FaPhoneAlt,
+//   FaEnvelope,
+//   FaFacebookF,
+//   FaInstagram,
+//   FaWhatsapp,
+//   FaYoutube
+// } from 'react-icons/fa'
+
+// export default function ContactInfo() {
+//   return (
+//     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-8 lg:px-20">
+
+//       {/* FLEX CONTAINER */}
+//       <div className="flex flex-col lg:flex-row gap-10">
+
+//         {/* LEFT */}
+//         <div className="flex-1 p-6 border-2 border-black rounded-2xl bg-gray-100 flex flex-col">
+
+//           <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-900">
+//             CONTACT INFORMATION
+//           </h2>
+
+//           <div className="w-24 h-1 bg-orange-500 mx-auto mt-3 mb-6"></div>
+
+//           <div className="flex gap-4 mb-6">
+//             <FaMapMarkerAlt className="text-orange-500 w-6 h-6 mt-1" />
+//             <p className="text-gray-700 text-sm sm:text-base">
+//               Lorem ipsum dolor sit amet consectetur adipisicing elit...
+//             </p>
+//           </div>
+
+//           <div className="flex gap-4 mb-6">
+//             <FaMapMarkerAlt className="text-orange-500 w-6 h-6 mt-1" />
+//             <p className="text-gray-700 text-sm sm:text-base">
+//               Lorem ipsum dolor sit amet consectetur adipisicing elit...
+//             </p>
+//           </div>
+
+//           <div className="flex items-center gap-4 mb-4">
+//             <FaPhoneAlt className="text-orange-500" />
+
+//             <a
+//               href="tel:+918744878555"
+//               className="hover:text-orange-500"
+//             >
+//               +91-8744878555
+//             </a>
+//           </div>
+
+//           <div className="flex items-center gap-4 mb-6">
+//             <FaEnvelope className="text-orange-500" />
+
+//             <a
+//               href="mailto:booking@ghumakkarmasti.in"
+//               className="break-all hover:text-orange-500"
+//             >
+//               booking@ghumakkarmasti.in
+//             </a>
+//           </div>
+
+//           {/* PUSH SOCIAL TO BOTTOM */}
+//           <div className="mt-20">
+
+//             <h3 className="text-center font-bold text-xl text-blue-900">
+//               Social Media
+//             </h3>
+
+//             <div className="w-24 h-1 bg-orange-500 mx-auto mt-2 mb-6"></div>
+
+//             <div className="flex justify-center gap-4">
+//               <a
+//                 href="https://www.facebook.com/ghumakkarmasti"
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="bg-orange-500 p-3 rounded-full text-white"
+//               >
+//                 <FaFacebookF />
+//               </a>
+
+//               <a
+//                 href="https://www.instagram.com/ghumakkarmasti"
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="bg-orange-500 p-3 rounded-full text-white"
+//               >
+//                 <FaInstagram />
+//               </a>
+
+//               <a
+//                 href="https://wa.me/918744878555"
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 className="bg-orange-500 p-3 rounded-full text-white"
+//               >
+//                 <FaWhatsapp />
+//               </a>
+
+//               <a
+//                 href="#"
+//                 className="bg-orange-500 p-3 rounded-full text-white"
+//               >
+//                 <FaYoutube />
+//               </a>
+//             </div>
+
+//           </div>
+//         </div>
+
+//         {/* RIGHT */}
+//         <div className="flex-1 flex">
+//           <ContactForm />
+//         </div>
+
+//       </div>
+//     </div>
+//   )
+// }
+
+
 'use client'
+
 import ContactForm from '@/components/Contactform'
 import {
   FaMapMarkerAlt,
@@ -7,14 +131,13 @@ import {
   FaFacebookF,
   FaInstagram,
   FaWhatsapp,
-  FaYoutube
-} from 'react-icons/fa'
+  FaXTwitter
+} from 'react-icons/fa6'
 
 export default function ContactInfo() {
   return (
     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-8 lg:px-20">
 
-      {/* FLEX CONTAINER */}
       <div className="flex flex-col lg:flex-row gap-10">
 
         {/* LEFT */}
@@ -29,30 +152,31 @@ export default function ContactInfo() {
           <div className="flex gap-4 mb-6">
             <FaMapMarkerAlt className="text-orange-500 w-6 h-6 mt-1" />
             <p className="text-gray-700 text-sm sm:text-base">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit...
-            </p>
-          </div>
-
-          <div className="flex gap-4 mb-6">
-            <FaMapMarkerAlt className="text-orange-500 w-6 h-6 mt-1" />
-            <p className="text-gray-700 text-sm sm:text-base">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit...
+              Ghumakkar Masti, India
             </p>
           </div>
 
           <div className="flex items-center gap-4 mb-4">
             <FaPhoneAlt className="text-orange-500" />
-            <p>+91-99, +91-7385789</p>
+            <a
+              href="tel:+918744878555"
+              className="hover:text-orange-500 transition"
+            >
+              +91-8744878555
+            </a>
           </div>
 
           <div className="flex items-center gap-4 mb-6">
             <FaEnvelope className="text-orange-500" />
-            <p className="break-all">booking@ghumakkarmasti.in</p>
+            <a
+              href="mailto:booking@ghumakkarmasti.in"
+              className="break-all hover:text-orange-500 transition"
+            >
+              booking@ghumakkarmasti.in
+            </a>
           </div>
 
-          {/* PUSH SOCIAL TO BOTTOM */}
-          <div className="mt-20">
-
+          <div className="mt-auto pt-10">
             <h3 className="text-center font-bold text-xl text-blue-900">
               Social Media
             </h3>
@@ -60,13 +184,46 @@ export default function ContactInfo() {
             <div className="w-24 h-1 bg-orange-500 mx-auto mt-2 mb-6"></div>
 
             <div className="flex justify-center gap-4">
-              <a href="#" className="bg-orange-500 p-3 rounded-full text-white"><FaFacebookF /></a>
-              <a href="#" className="bg-orange-500 p-3 rounded-full text-white"><FaInstagram /></a>
-              <a href="#" className="bg-orange-500 p-3 rounded-full text-white"><FaWhatsapp /></a>
-              <a href="#" className="bg-orange-500 p-3 rounded-full text-white"><FaYoutube /></a>
-            </div>
 
+              <a
+                href="https://www.facebook.com/ghumakkarmasti"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-orange-500 p-3 rounded-full text-white hover:scale-110 hover:bg-orange-600 transition"
+              >
+                <FaFacebookF />
+              </a>
+
+              <a
+                href="https://www.instagram.com/ghumakkarmasti"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-orange-500 p-3 rounded-full text-white hover:scale-110 hover:bg-orange-600 transition"
+              >
+                <FaInstagram />
+              </a>
+
+              <a
+                href="https://wa.me/918744878555"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-orange-500 p-3 rounded-full text-white hover:scale-110 hover:bg-orange-600 transition"
+              >
+                <FaWhatsapp />
+              </a>
+
+              <a
+                href="https://x.com/ghumakkarmasti"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-orange-500 p-3 rounded-full text-white hover:scale-110 hover:bg-orange-600 transition"
+              >
+                <FaXTwitter />
+              </a>
+
+            </div>
           </div>
+
         </div>
 
         {/* RIGHT */}

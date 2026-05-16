@@ -68,11 +68,12 @@ function TourPackageCard({
           </Link>
 
           <a
-            href="https://wa.me/919821325561"
+            href="https://wa.me/918744878555"
             target="_blank"
+            rel="noopener noreferrer"
             className="bg-green-500 text-white px-3 py-2 rounded-lg flex items-center justify-center hover:bg-green-600 transition"
           >
-            <FontAwesomeIcon icon={faWhatsapp} className="text-base sm:text-lg" />
+            WhatsApp
           </a>
         </div>
       </div>
@@ -242,24 +243,24 @@ export default function Cards() {
       />
 
       {/* Modal */}
-       {openModal && (
-       <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center px-4 ">
-         
-         <div className="bg-white rounded-xl w-full max-w-md relative">
-     
-           {/* CLOSE */}
-           <button
-             onClick={() => setOpenModal(false)}
-             className="absolute top-1 right-1 text-xl font-bold"
-           >
-             ✕
-           </button>
-     
-           <BookNowForm packageName={selectedPackage} />
-     
-         </div>
-       </div>
-     )}  
+      {openModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center px-4 ">
+
+          <div className="bg-white rounded-xl w-full max-w-md relative">
+
+            {/* CLOSE */}
+            <button
+              onClick={() => setOpenModal(false)}
+              className="absolute top-1 right-1 text-xl font-bold"
+            >
+              ✕
+            </button>
+
+            <BookNowForm packageName={selectedPackage} />
+
+          </div>
+        </div>
+      )}
     </>
   )
 }
