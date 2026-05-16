@@ -1,56 +1,52 @@
 import nodemailer from "nodemailer";
 
 export async function POST(req) {
-  try {
-    const data = await req.json();
+    try {
+        const data = await req.json();
 
-    const transporter = nodemailer.createTransport({
-      host: "mail.ghumakkarmasti.in",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+        const transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST || "mail.ghumakkarmasti.in",
+            port: parseInt(process.env.EMAIL_PORT || "465"),
+            secure: true, 
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
 
-    await transporter.sendMail({
-      from: `"Ghumakkar Masti" <booking@ghumakkarmasti.in>`,
-      to: "booking@ghumakkarmasti.in",
-      subject: `New ${data.form_type}`,
+        await transporter.sendMail({
+            from: `"Ghumakkar Masti" <${process.env.EMAIL_USER}>`,
+            to: "booking@ghumakkarmasti.in",
+            subject: `New ${data.form_type}`,
+            html: `
+        <h2>New Enquiry</h2>
+        <p><b>Name:</b> ${data.name}</p>
+        <p><b>Email:</b> ${data.email}</p>
+        <p><b>Phone:</b> ${data.phone}</p>
+        <p><b>Pickup:</b> ${data.pickup}</p>
+        <p><b>Date:</b> ${data.date}</p>
 
-      html: `
-        <h2>New Enquiry Received</h2>
+        ${data.destination ? `<p><b>Destination:</b> ${data.destination}</p>` : ""}
+        ${data.travelers ? `<p><b>Travelers:</b> ${data.travelers}</p>` : ""}
+        ${data.packageType ? `<p><b>Package:</b> ${data.packageType}</p>` : ""}
+        ${data.car ? `<p><b>Car:</b> ${data.car}</p>` : ""}
+        ${data.duration ? `<p><b>Duration:</b> ${data.duration}</p>` : ""}
 
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Phone:</strong> ${data.phone}</p>
-        <p><strong>Pickup:</strong> ${data.pickup}</p>
-        <p><strong>Date:</strong> ${data.date}</p>
-
-        ${data.destination ? `<p><strong>Destination:</strong> ${data.destination}</p>` : ""}
-        ${data.travelers ? `<p><strong>Travelers:</strong> ${data.travelers}</p>` : ""}
-        ${data.packageType ? `<p><strong>Package:</strong> ${data.packageType}</p>` : ""}
-        ${data.car ? `<p><strong>Car:</strong> ${data.car}</p>` : ""}
-        ${data.duration ? `<p><strong>Duration:</strong> ${data.duration}</p>` : ""}
-        ${data.message ? `<p><strong>Message:</strong> ${data.message}</p>` : ""}
+        <p><b>Message:</b> ${data.message || "No message"}</p>
       `,
-    });
+        });
 
-    return Response.json({
-      success: true,
-      message: "Email sent successfully"
-    });
+        return Response.json({
+            success: true,
+            message: "Email sent"
+        });
 
-  } catch (error) {
-    console.error("EMAIL SEND ERROR:", error);
+    } catch (error) {
+        console.error("EMAIL SEND ERROR:", error);
 
-    return Response.json(
-      {
-        success: false,
-        message: error.message || "Failed to send email",
-      },
-      { status: 500 }
-    );
-  }
+        return Response.json({
+            success: false,
+            message: error.message || "Failed to send email"
+        }, { status: 500 });
+    }
 }
