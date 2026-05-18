@@ -4,7 +4,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { sendEmail } from '@/utils/sendEmail'
 
-export default function BookNowForm({ packageName = "" }) {
+export default function BookNowForm({ packageName = "", onClose }) {
 
   const [form, setForm] = useState({
     name: '',
@@ -122,6 +122,9 @@ export default function BookNowForm({ packageName = "" }) {
           pickup: '',
           message: '',
         })
+        if (onClose) {
+          onClose()
+        }
       } else {
         toast.error('Failed to send booking ❌')
       }

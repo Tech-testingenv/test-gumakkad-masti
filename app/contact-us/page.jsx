@@ -1,7 +1,6 @@
 'use client'
 import ContactForm from '@/components/Contactform'
 import {
-  FaMapMarkerAlt,
   FaPhoneAlt,
   FaEnvelope,
   FaFacebookF,
@@ -26,17 +25,9 @@ export default function ContactInfo() {
 
           <div className="w-24 h-1 bg-orange-500 mx-auto mt-3 mb-6"></div>
 
-          <div className="flex gap-4 mb-6">
-            <FaMapMarkerAlt className="text-orange-500 w-6 h-6 mt-1" />
-            <p className="text-gray-700 text-sm sm:text-base">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit...
-            </p>
-          </div>
-
-          <div className="flex gap-4 mb-6">
-            <FaMapMarkerAlt className="text-orange-500 w-6 h-6 mt-1" />
-            <p className="text-gray-700 text-sm sm:text-base">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit...
+          <div className="mb-8 text-center px-4">
+            <p className="text-blue-900 text-base sm:text-lg font-medium leading-relaxed italic font-serif">
+              "We would love to hear from you! Whether you have a question about our tour packages, need assistance with your booking, or just want to share your travel dreams, our team is ready to help you plan your perfect getaway. Reach out to us anytime."
             </p>
           </div>
 
